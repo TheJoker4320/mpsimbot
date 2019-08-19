@@ -2,6 +2,7 @@ from ctre import WPI_TalonSRX, FeedbackDevice, ControlMode
 from navx import AHRS
 from wpilib import Joystick
 from wpilib.drive import DifferentialDrive
+from physics import PhysicsEngine
 
 
 class Chassis:
@@ -16,7 +17,7 @@ class Chassis:
         self.z_speed = 0
         self.left_speed = 0
         self.right_speed = 0
-        self.arcade_mode: bool
+        self.arcade_mode = True
 
     def setup(self):
         self.left_slave.follow(self.left_master)
@@ -45,9 +46,9 @@ class Chassis:
 
         return left_pos, right_pos
 
-    def set_motors_value(self, left: float, right: float):
-        self.left_master.set(left, ControlMode.PercentOutput)
-        self.right_master.set(right, ControlMode.PercentOutput)
+    def set_motors_values(self, left: float, right: float):
+        self.left_master.set(ControlMode.PercentOutput, left)
+        self.right_master.set(ControlMode.PercentOutput, right)
 
     def reset_encoders(self):
         self.left_master.setSelectedSensorPosition(0)
@@ -58,6 +59,9 @@ class Chassis:
 
     def reset_angle(self):
         self.navx.zeroYaw()
+        print("resetc")
+        PhysicsEngine.reset = True
+
 
     def execute(self):
         if self.arcade_mode:

@@ -17,12 +17,11 @@ This is a template for magicbot project for FRC Team 4320 - The Jokerbot
 class Jokerbot(magicbot.MagicRobot):
     chassis: Chassis
 
+
     def createObjects(self):
         '''Create motors and stuff here'''
-
         with self.consumeExceptions():
             Map.load_json(os.path.join(os.path.dirname(os.path.realpath(__file__)),"map.json"))
-
         self.chassis_ports = Map.get_map()["subsystems"]["chassis"]["can_motors"]
 
         self.chassis_left_master = WPI_TalonSRX(self.chassis_ports["left_master"])
@@ -34,9 +33,10 @@ class Jokerbot(magicbot.MagicRobot):
 
         self.left_joystick = Joystick(Map.get_map()["operator_ports"]["left_stick"])
 
+
     def teleopInit(self):
         '''Called when teleop starts; optional'''
-        pass
+        self.chassis.reset_encoders()
 
     def teleopPeriodic(self):
         '''Called on each iteration of the control loop'''

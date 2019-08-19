@@ -12,11 +12,44 @@
         "encoder_ratio": 3,
         "high_gear_ratio": 6.601,
         "low_gear_ratio": 14.999,
-        "encoder_ticks": 256
+        "third_stage_ratio": 1.8,
+        "encoder_ticks": 256,
+        "wheelbase": 26.7716535,
+        "kv": 0.00001079102
       }
     }
   },
   "operator_ports": {
     "left_stick": 0
+  },
+  "paths": {
+    "straight3": {
+      "left": "paths/straight3.left.pf1.csv",
+      "right": "paths/straight3.right.pf1.csv"
+    },
+    "curved": {
+      "left": "paths/curve.left.pf1.csv",
+      "right": "paths/curve.right.pf1.csv"
+    },
+    "curved2": {
+      "left": "paths/output/curve.left.pf1.csv",
+      "right": "paths/output/curve.right.pf1.csv"
+    },
+    "circle": {
+      "left": "paths/output/circle.left.pf1.csv",
+      "right": "paths/output/circle.right.pf1.csv"
+    },
+    "hubToRocket": {
+      "left": "paths/output/hubToRocket.left.pf1.csv",
+      "right": "paths/output/hubToRocket.right.pf1.csv"
+    },
+    "rocketToLoading": {
+      "left": "paths/output/rocketToLoading.left.pf1.csv",
+      "right": "paths/output/rocketToLoading.right.pf1.csv"
+    },
+    "loadingToRocket": {
+      "left": "paths/output/loadingToRocket.left.pf1.csv",
+      "right": "paths/output/loadingToRocket.right.pf1.csv"
+    }
   }
 }
