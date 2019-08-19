@@ -6,7 +6,17 @@
         "right_master": 1,
         "left_slave": 2,
         "right_slave": 3
+      },
+      "constants": {
+        "wheel_diam": 6,
+        "encoder_ratio": 3,
+        "high_gear_ratio": 6.601,
+        "low_gear_ratio": 14.999,
+        "encoder_ticks": 256
       }
     }
+  },
+  "operator_ports": {
+    "left_stick": 0
   }
 }
