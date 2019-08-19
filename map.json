@@ -1,0 +1,12 @@
+{
+  "subsystems": {
+    "chassis": {
+      "can_motors": {
+        "left_master": 0,
+        "right_master": 1,
+        "left_slave": 2,
+        "right_slave": 3
+      }
+    }
+  }
+}
