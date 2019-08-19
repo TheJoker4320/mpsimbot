@@ -1,6 +1,8 @@
 from ctre import WPI_TalonSRX, FeedbackDevice, ControlMode
-from wpilib.drive import DifferentialDrive
 from navx import AHRS
+from wpilib import Joystick
+from wpilib.drive import DifferentialDrive
+
 
 class Chassis:
     left_master: WPI_TalonSRX
@@ -10,7 +12,11 @@ class Chassis:
     navx: AHRS
 
     def __init__(self):
-        pass
+        self.y_speed = 0
+        self.z_speed = 0
+        self.left_speed = 0
+        self.right_speed = 0
+        self.arcade_mode: bool
 
     def setup(self):
         self.left_slave.follow(self.left_master)
@@ -39,7 +45,7 @@ class Chassis:
 
         return left_pos, right_pos
 
-    def set_motors_value(self,left: float, right: float):
+    def set_motors_value(self, left: float, right: float):
         self.left_master.set(left, ControlMode.PercentOutput)
         self.right_master.set(right, ControlMode.PercentOutput)
 
@@ -52,3 +58,19 @@ class Chassis:
 
     def reset_angle(self):
         self.navx.zeroYaw()
+
+    def execute(self):
+        if self.arcade_mode:
+            self.arcade_drive(self.y_speed, self.z_speed)
+        else:
+            self.tank_drive(self.left_speed, self.right_speed)
+
+    def upadte_operator(self, left_stick: Joystick, right_stick: Joystick = None):
+        if right_stick is None:
+            self.arcade_mode = True
+            self.y_speed = left_stick.getY()
+            self.z_speed = left_stick.getZ()
+        else:
+            self.arcade_mode = True
+            self.left_speed = left_stick.getY()
+            self.right_speed = right_stick.getY()
