@@ -1,7 +1,8 @@
 import magicbot
 import wpilib
-from components import my_component
+from components.chassis import Chassis
 from wpilib import Talon
+from ctre import WPI_TalonSRX
 
 """
 This is a template for magicbot project for FRC Team 4320 - The Jokerbot
@@ -9,11 +10,14 @@ This is a template for magicbot project for FRC Team 4320 - The Jokerbot
 
 class Jokerbot(magicbot.MagicRobot):
 
-    my_component: my_component.MyComponent
+    chassis: Chassis
 
     def createObjects(self):
         '''Create motors and stuff here'''
-        self.my_component_motor = Talon(0)
+        self.chassis_left_master = WPI_TalonSRX()
+        self.chassis_left_slave = WPI_TalonSRX()
+        self.chassis_right_master = WPI_TalonSRX()
+        self.chassis_right_slave = WPI_TalonSRX()
 
 
     def teleopInit(self):
