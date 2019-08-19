@@ -68,9 +68,9 @@ class Chassis:
     def upadte_operator(self, left_stick: Joystick, right_stick: Joystick = None):
         if right_stick is None:
             self.arcade_mode = True
-            self.y_speed = left_stick.getY()
-            self.z_speed = left_stick.getZ()
+            self.y_speed = -left_stick.getY()
+            self.z_speed = -left_stick.getZ()
         else:
             self.arcade_mode = True
-            self.left_speed = left_stick.getY()
-            self.right_speed = right_stick.getY()
+            self.left_speed = -left_stick.getY()
+            self.right_speed = -right_stick.getY()

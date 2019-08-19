@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="JokerPy-simulate" type="PythonConfigurationType" factoryName="Python">
-    <module name="Basic-Pybot" />
+    <module name="mpbot" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
