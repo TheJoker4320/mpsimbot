@@ -1,10 +1,11 @@
 #
 # See the notes for the other physics sample
 #
-
-
+import math
 from pyfrc.physics import motor_cfgs, tankmodel
 from pyfrc.physics.units import units
+
+from jokerpylib.mapping.map import Map
 
 
 class PhysicsEngine(object):
@@ -19,6 +20,7 @@ class PhysicsEngine(object):
         """
 
         self.physics_controller = physics_controller
+        self.physics_controller.add_device_gyro_channel("navxmxp_spi_4_angle")
 
         # Change these parameters to fit your robot!
         bumper_width = 3.25 * units.inch
@@ -46,14 +48,29 @@ class PhysicsEngine(object):
                             time that this function was called
         """
 
-        # Simulate the motor
-        motor = hal_data["pwm"][0]["value"]
-
-
         """For drivetrain simulation"""
         # Not needed because front and rear should be in sync
-        # lf_motor = hal_data['pwm'][3]['value']
-        # rf_motor = hal_data['pwm'][4]['value']
+        lm_motor = hal_data['CAN'][0]['value']
+        rm_motor = hal_data['CAN'][1]['value']
 
-        #x, y, angle = self.drivetrain.get_distance(lr_motor, rr_motor, tm_diff)
-        #self.physics_controller.distance_drive(x, y, angle)
+        x, y, angle = self.drivetrain.get_distance(lm_motor, rm_motor, tm_diff)
+        self.physics_controller.distance_drive(x, y, angle)
+
+        constants = Map.get_map()["subsystems"]["chassis"]["constants"]
+
+        encoder_ratio = constants["encoder_ratio"]
+        wheel_diam = constants["wheel_diam"]
+        high_gear_ratio = constants["high_gear_ratio"]
+        encoder_ticks = constants["encoder_ticks"]
+
+        wheel_circumference = wheel_diam * math.pi
+
+        ticks_per_rev = high_gear_ratio * encoder_ratio * encoder_ticks
+        ticks_per_feet = ticks_per_rev * wheel_circumference
+
+        hal_data['CAN'][0]['quad_position'] = self.drivetrain.l_position * ticks_per_feet
+        hal_data['CAN'][1]['quad_position'] = self.drivetrain.r_position * ticks_per_feet
+
+        # TODO convert velocity measurement units
+        hal_data['CAN'][0]['quad_velocity'] = self.drivetrain.l_velocity
+        hal_data['CAN'][1]['quad_velocity'] = self.drivetrain.r_velocity
